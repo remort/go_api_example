@@ -1,13 +1,13 @@
 package tests
 
 import (
+	"go-api-example/src/db"
+	"go-api-example/src/handlers"
+	"go-api-example/src/types"
 	"net/http"
 	"net/http/httptest"
 	"testing"
 	"time"
-	"web-example/src/db"
-	"web-example/src/handlers"
-	"web-example/src/types"
 
 	"github.com/google/uuid"
 )

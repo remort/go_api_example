@@ -1,8 +1,8 @@
 package db
 
 import (
+	"go-api-example/src/settings"
 	"log"
-	"web-example/src/settings"
 
 	"github.com/jinzhu/gorm"
 	_ "github.com/lib/pq"

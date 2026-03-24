@@ -4,10 +4,10 @@ import (
 	"encoding/json"
 	"errors"
 	"fmt"
+	"go-api-example/src/db"
+	"go-api-example/src/types"
 	"log"
 	"net/http"
-	"web-example/src/db"
-	"web-example/src/types"
 
 	"github.com/google/uuid"
 	"github.com/jinzhu/gorm"

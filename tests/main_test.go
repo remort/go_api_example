@@ -3,12 +3,12 @@ package tests
 import (
 	"bytes"
 	"encoding/json"
+	"go-api-example/src/db"
+	"go-api-example/src/types"
 	"log"
 	"net/http"
 	"os"
 	"testing"
-	"web-example/src/db"
-	"web-example/src/types"
 
 	"github.com/google/uuid"
 )

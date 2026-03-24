@@ -1,12 +1,12 @@
 package main
 
 import (
+	"go-api-example/src/db"
+	"go-api-example/src/handlers"
+	"go-api-example/src/settings"
+	"go-api-example/src/types"
 	"log"
 	"net/http"
-	"web-example/src/db"
-	"web-example/src/handlers"
-	"web-example/src/settings"
-	"web-example/src/types"
 
 	_ "github.com/lib/pq"
 )

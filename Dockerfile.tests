@@ -2,7 +2,8 @@ FROM golang:latest
 WORKDIR /app
 
 ADD src src
+ADD tests tests
 ADD go.mod .
 RUN go mod tidy
 
-ENTRYPOINT go test -v /app/src/tests/
+ENTRYPOINT go test -v /app/tests/
