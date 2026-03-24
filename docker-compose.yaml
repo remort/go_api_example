@@ -5,7 +5,7 @@ services:
     image: postgres:latest
     env_file:
       - config.env
-    command: "postgres -c max_connections=20 -c shared_buffers=200MB"
+    command: "postgres -c max_connections=500 -c shared_buffers=200MB"
     volumes:
       - postgres-data:/var/lib/postgresql
     ports:

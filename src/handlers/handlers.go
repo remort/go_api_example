@@ -14,6 +14,7 @@ import (
 )
 
 func sendJSON(w http.ResponseWriter, status int, data any) error {
+	log.Printf("Response with status code: %d", status)
 	w.Header().Set("Content-Type", "application/json")
 	w.WriteHeader(status)
 	return json.NewEncoder(w).Encode(data)
@@ -45,7 +46,7 @@ func decodeBody(w http.ResponseWriter, r *http.Request) (types.DepositWithdrawRe
 }
 
 func HandleWalletDepositWithdraw(w http.ResponseWriter, r *http.Request) {
-	log.Println("In handleWalletDepositWithdraw")
+	log.Println("In POST handler")
 
 	requestBody, err := decodeBody(w, r)
 	if err != nil {
@@ -69,7 +70,7 @@ func HandleWalletDepositWithdraw(w http.ResponseWriter, r *http.Request) {
 }
 
 func HandleGetWallet(w http.ResponseWriter, r *http.Request) {
-	log.Println("In handleGetWallet")
+	log.Println("In GET handler")
 	wallet_id := r.PathValue("wallet_id")
 
 	if err := uuid.Validate(wallet_id); err != nil {

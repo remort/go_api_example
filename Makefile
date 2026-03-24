@@ -13,3 +13,6 @@ test:
 	- docker-compose -f docker-compose.test.yaml up tests
 
 deploy: build run
+
+load_tests:
+	wrk -t8 -c500 -d60s -R1000 -s wrk.lua http://0.0.0.0:8000/api/v1/wallet
