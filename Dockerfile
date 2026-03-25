@@ -3,4 +3,4 @@ WORKDIR /app
 
 ADD build build
 
-ENTRYPOINT build/web-example
+ENTRYPOINT ["build/go-api-example"]
