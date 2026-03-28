@@ -18,4 +18,5 @@ load_tests:
 	wrk -t8 -c500 -d60s -R1000 -s wrk.lua http://0.0.0.0:8000/api/v1/wallet
 
 run_source:
+	docker-compose up -d db
 	env $$(xargs < config.env.local) go run ./src/

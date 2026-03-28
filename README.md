@@ -14,7 +14,7 @@
 
 ## API endpoints
 
-**/api/v1/wallet**
+**/api/v1/wallet/change-balance**
 
     METHOD: POST
     BODY: {
@@ -30,6 +30,26 @@
     RESP: 200
     ERR_RESP: 400, 404
 
+**/api/v1/wallet**
+
+    METHOD: POST
+    BODY: (empty)
+    RESP: 201
+    RESP_BODY: Wallet object (Id, Amount, CreatedAt, UpdatedAt)
+    ERR_RESP: 400
+
+**/api/v1/wallet**
+
+    METHOD: GET
+    RESP: 200
+    RESP_BODY: Array of Wallet objects (max 10)
+    ERR_RESP: 400
+
+**/api/v1/wallet/<Wallet ID: uuid4>**
+
+    METHOD: DELETE
+    RESP: 204
+    ERR_RESP: 400, 404
 
 ## Load testing
 

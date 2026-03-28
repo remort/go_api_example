@@ -8,6 +8,7 @@ import (
 	"go-api-example/src/types"
 	"log"
 	"net/http"
+	"time"
 
 	"github.com/google/uuid"
 	"github.com/jinzhu/gorm"
@@ -46,7 +47,7 @@ func decodeBody(w http.ResponseWriter, r *http.Request) (types.DepositWithdrawRe
 }
 
 func HandleWalletDepositWithdraw(w http.ResponseWriter, r *http.Request) {
-	log.Println("In POST handler")
+	log.Println("In POST Deposit/Waithdraw handler")
 
 	requestBody, err := decodeBody(w, r)
 	if err != nil {
@@ -70,16 +71,16 @@ func HandleWalletDepositWithdraw(w http.ResponseWriter, r *http.Request) {
 }
 
 func HandleGetWallet(w http.ResponseWriter, r *http.Request) {
-	log.Println("In GET handler")
-	wallet_id := r.PathValue("wallet_id")
+	log.Println("In GET wallet handler")
+	walletId := r.PathValue("wallet_id")
 
-	if err := uuid.Validate(wallet_id); err != nil {
+	if err := uuid.Validate(walletId); err != nil {
 		sendJSON(w, http.StatusBadRequest, "Invalid UUID")
 		return
 	}
 
 	var wallet types.Wallet
-	result := db.DB.Where("id = ?", wallet_id).First(&wallet)
+	result := db.DB.Where("id = ?", walletId).First(&wallet)
 	if errors.Is(result.Error, gorm.ErrRecordNotFound) {
 		sendJSON(w, http.StatusNotFound, "Wallet not found")
 		return
@@ -88,4 +89,68 @@ func HandleGetWallet(w http.ResponseWriter, r *http.Request) {
 	log.Printf("Wallet in DB: %v", wallet)
 
 	sendJSON(w, http.StatusOK, wallet)
+}
+
+func HandleCreateWallet(w http.ResponseWriter, r *http.Request) {
+	log.Println("In POST Create wallet handler")
+
+	wallet := types.Wallet{
+		Id:        uuid.New(),
+		Amount:    0,
+		CreatedAt: time.Now(),
+		UpdatedAt: time.Now(),
+	}
+	result := db.DB.Create(&wallet)
+	if result.Error != nil {
+		sendJSON(w, http.StatusBadRequest, "Create wallet error: "+result.Error.Error())
+	}
+
+	log.Printf("New wallet ID: %v", wallet.Id)
+
+	sendJSON(w, http.StatusCreated, wallet)
+}
+
+func HandleListWallets(w http.ResponseWriter, r *http.Request) {
+	log.Println("In GET List wallets handler")
+
+	var wallets []types.Wallet
+	result := db.DB.Model(&types.Wallet{}).Limit(10).Find(&wallets)
+	if result.Error != nil {
+		sendJSON(w, http.StatusBadRequest, "Lookup wallet list error: "+result.Error.Error())
+	}
+
+	log.Printf("Found wallets in DB: %v", len(wallets))
+
+	sendJSON(w, http.StatusOK, wallets)
+}
+
+func HandleDeleteWallet(w http.ResponseWriter, r *http.Request) {
+	log.Println("In DELETE Wallet handler")
+
+	walletId := r.PathValue("wallet_id")
+	if err := uuid.Validate(walletId); err != nil {
+		log.Print(111)
+		sendJSON(w, http.StatusBadRequest, "Invalid UUID")
+		return
+	}
+
+	var wallet types.Wallet
+	result := db.DB.First(&wallet, "id = ?", walletId)
+	if result.Error != nil {
+		if errors.Is(result.Error, gorm.ErrRecordNotFound) {
+			sendJSON(w, http.StatusNotFound, "Wallet not found")
+		} else {
+			sendJSON(w, http.StatusBadRequest, "Lookup wallet error: "+result.Error.Error())
+		}
+		return
+	}
+
+	result = db.DB.Delete(&wallet)
+	if result.Error != nil {
+		sendJSON(w, http.StatusBadRequest, "Delete wallet error: "+result.Error.Error())
+		return
+	}
+	log.Printf("Deleted wallet ID: %v", walletId)
+
+	w.WriteHeader(http.StatusNoContent)
 }
