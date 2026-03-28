@@ -32,7 +32,7 @@ func decodeBody(w http.ResponseWriter, r *http.Request) (types.DepositWithdrawRe
 	}
 	defer r.Body.Close()
 
-	log.Printf("Parsed request body %v , %v", requestBody.ValletId, requestBody.OperationType)
+	log.Printf("Parsed request body %v , %v", requestBody.WalletId, requestBody.OperationType)
 
 	switch requestBody.OperationType {
 	case types.Deposit:
@@ -56,8 +56,8 @@ func HandleWalletDepositWithdraw(w http.ResponseWriter, r *http.Request) {
 	}
 
 	var wallet types.Wallet
-	log.Printf("Requested wallet ID: %v", requestBody.ValletId)
-	result := db.DB.Where("id = ?", requestBody.ValletId).First(&wallet)
+	log.Printf("Requested wallet ID: %v", requestBody.WalletId)
+	result := db.DB.Where("id = ?", requestBody.WalletId).First(&wallet)
 	if errors.Is(result.Error, gorm.ErrRecordNotFound) {
 		sendJSON(w, http.StatusNotFound, "Wallet not found")
 		return

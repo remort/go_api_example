@@ -2,11 +2,14 @@
 
 - REST API Server
 - DB with ORM
+- VueJS frontend
 - Tests
 
 #### To run:
 
     make deploy
+
+Then point your browser to http://localhost:3000/
 
 #### To test:
 
@@ -18,7 +21,7 @@
 
     METHOD: POST
     BODY: {
-              "valletId": <uuid4>,
+              "walletId": <uuid4>,
               "operationType": <str: deposit|withdraw>,
               "amount": <int>
           }

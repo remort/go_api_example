@@ -67,7 +67,7 @@ func TestWalletDepositWithdraw(t *testing.T) {
 		log.Printf("Wallet: %v", wallet)
 
 		var jsonStr = []byte(`{
-			"valletId": "` + wallet.Id.String() + `",
+			"walletId": "` + wallet.Id.String() + `",
 			"operationType": "` + string(opType) + `",
 			"amount": 1
 		}`)
@@ -101,7 +101,7 @@ func TestWalletDepositWithdraw(t *testing.T) {
 func TestWalletDepositWithdrawInvalidID(t *testing.T) {
 	clearTable()
 	var jsonStr = []byte(`{
-		"valletId": "` + invalidUUID + `",
+		"walletId": "` + invalidUUID + `",
 		"operationType": "` + "deposit" + `",
 		"amount": 1
 	}`)
@@ -115,7 +115,7 @@ func TestWalletDepositWithdrawInvalidID(t *testing.T) {
 func TestWalletDepositWithdrawInvalidOpType(t *testing.T) {
 	clearTable()
 	var jsonStr = []byte(`{
-		"valletId": "` + uuid.New().String() + `",
+		"walletId": "` + uuid.New().String() + `",
 		"operationType": "` + "decrease" + `",
 		"amount": 1
 	}`)

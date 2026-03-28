@@ -29,5 +29,22 @@ services:
     ports:
       - 8000:8080
 
+  front:
+    build:
+      context: ./frontend
+      target: development
+    depends_on:
+      - app
+    ports:
+      - 3000:3000
+    volumes:
+      - ./frontend:/app
+      - /app/node_modules
+    environment:
+      - NODE_ENV=development
+      - VITE_API_TARGET=http://app:8080
+      - CHOKIDAR_USEPOLLING=true
+      - WATCHPACK_POLLING=true
+
 volumes:
   postgres-data:

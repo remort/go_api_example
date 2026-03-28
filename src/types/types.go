@@ -14,14 +14,14 @@ const (
 )
 
 type DepositWithdrawRequest struct {
-	ValletId      uuid.UUID       `json:"valletId"`
+	WalletId      uuid.UUID       `json:"walletId"`
 	OperationType WalletOperation `json:"operationType"`
 	Amount        int             `json:"amount"`
 }
 
 type Wallet struct {
-	Id        uuid.UUID
-	Amount    int
-	CreatedAt time.Time
-	UpdatedAt time.Time
+	Id        uuid.UUID `json:"id"`
+	Amount    int       `json:"amount"`
+	CreatedAt time.Time `json:"created_at"`
+	UpdatedAt time.Time `json:"updated_at"`
 }
